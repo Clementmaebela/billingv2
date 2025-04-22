@@ -412,6 +412,29 @@ const Invoices = () => {
                   </table>
                 </div>
               </div>
+
+              <div className="flex justify-end gap-4">
+                <Button
+                  variant="outline"
+                  onClick={() => setIsPreviewOpen(false)}
+                >
+                  Close
+                </Button>
+                <Button
+                  onClick={() => {
+                    setIsPreviewOpen(false);
+                    navigate(`/invoice-generator`, { 
+                      state: { 
+                        caseId: selectedInvoice.case_id,
+                        invoiceId: selectedInvoice.id,
+                        isEditing: true 
+                      } 
+                    });
+                  }}
+                >
+                  Edit Invoice
+                </Button>
+              </div>
             </div>
           )}
         </DialogContent>
