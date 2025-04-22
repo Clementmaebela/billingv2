@@ -39,7 +39,7 @@ const TariffCalculator = ({
   useEffect(() => {
     let items: TariffItem[] = [];
     
-    if (caseInfo.court === "magistrate") {
+    if (caseInfo.court.toLowerCase() === "magistrate") {
       items = getMagistrateTariffs(caseInfo.scale, caseInfo.filePages);
     } else {
       items = getHighCourtTariffs(caseInfo.scale, caseInfo.filePages);
@@ -166,10 +166,14 @@ const TariffCalculator = ({
       />
       
       <div className="flex justify-between mt-6">
-        <Button variant="outline" onClick={onBack}>Back</Button>
-        <Button onClick={handleCalculate}>
-          {isEditing ? "Update Invoice" : "Generate Invoice"}
+        <Button variant="outline" onClick={onBack}>
+          {isEditing ? "Proceed" : "Back"}
         </Button>
+        {!isEditing && (
+          <Button onClick={handleCalculate}>
+            Generate Invoice
+          </Button>
+        )}
       </div>
     </div>
   );

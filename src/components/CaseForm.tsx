@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
+import { cn } from "@/lib/utils";
 
 type CourtType = Database["public"]["Enums"]["court_type"];
 type CaseStatus = Database["public"]["Enums"]["case_status"];
@@ -116,10 +117,10 @@ const CaseForm = ({ initialData = {}, onSubmit, onCancel, isSubmitting = false }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="title">Case Title</Label>
+          <Label htmlFor="title" className="text-sm md:text-base">Case Title</Label>
           <Input
             id="title"
             name="title"
@@ -127,12 +128,12 @@ const CaseForm = ({ initialData = {}, onSubmit, onCancel, isSubmitting = false }
             value={formData.title}
             onChange={handleChange}
             required
-            className={errors.title ? "border-red-500" : ""}
+            className={cn("h-10 md:h-11", errors.title ? "border-red-500" : "")}
           />
-          {errors.title && <p className="text-sm text-red-500">{errors.title}</p>}
+          {errors.title && <p className="text-xs md:text-sm text-red-500">{errors.title}</p>}
         </div>
         <div className="space-y-2">
-          <Label htmlFor="caseNumber">Case Number</Label>
+          <Label htmlFor="caseNumber" className="text-sm md:text-base">Case Number</Label>
           <Input
             id="caseNumber"
             name="caseNumber"
@@ -140,67 +141,73 @@ const CaseForm = ({ initialData = {}, onSubmit, onCancel, isSubmitting = false }
             value={formData.caseNumber}
             onChange={handleChange}
             required
-            className={errors.caseNumber ? "border-red-500" : ""}
+            className={cn("h-10 md:h-11", errors.caseNumber ? "border-red-500" : "")}
           />
-          {errors.caseNumber && <p className="text-sm text-red-500">{errors.caseNumber}</p>}
+          {errors.caseNumber && <p className="text-xs md:text-sm text-red-500">{errors.caseNumber}</p>}
         </div>
         <div className="space-y-2">
-          <Label htmlFor="court">Court</Label>
-          <select
-            id="court"
-            name="court"
-            className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          <Label htmlFor="court" className="text-sm md:text-base">Court</Label>
+          <Select
             value={formData.court}
-            onChange={handleChange}
-            required
+            onValueChange={(value) => handleChange({ target: { name: "court", value } } as any)}
           >
-            <option value="Magistrate">Magistrate Court</option>
-            <option value="High">High Court</option>
-          </select>
+            <SelectTrigger className={cn("h-10 md:h-11", errors.court ? "border-red-500" : "")}>
+              <SelectValue placeholder="Select court type" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Magistrate">Magistrate Court</SelectItem>
+              <SelectItem value="High">High Court</SelectItem>
+            </SelectContent>
+          </Select>
+          {errors.court && <p className="text-xs md:text-sm text-red-500">{errors.court}</p>}
         </div>
         <div className="space-y-2">
-          <Label htmlFor="scale">Scale</Label>
-          <select
-            id="scale"
-            name="scale"
-            className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          <Label htmlFor="scale" className="text-sm md:text-base">Scale</Label>
+          <Select
             value={formData.scale}
-            onChange={handleChange}
-            required
+            onValueChange={(value) => handleChange({ target: { name: "scale", value } } as any)}
           >
-            {formData.court === "Magistrate" ? (
-              <>
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-                <option value="D">D</option>
-              </>
-            ) : (
-              <>
-                <option value="General">General</option>
-                <option value="Attorney">Attorney</option>
-                <option value="Candidate">Candidate Attorney</option>
-              </>
-            )}
-          </select>
+            <SelectTrigger className={cn("h-10 md:h-11", errors.scale ? "border-red-500" : "")}>
+              <SelectValue placeholder="Select scale" />
+            </SelectTrigger>
+            <SelectContent>
+              {formData.court === "Magistrate" ? (
+                <>
+                  <SelectItem value="A">A</SelectItem>
+                  <SelectItem value="B">B</SelectItem>
+                  <SelectItem value="C">C</SelectItem>
+                  <SelectItem value="D">D</SelectItem>
+                </>
+              ) : (
+                <>
+                  <SelectItem value="General">General</SelectItem>
+                  <SelectItem value="Attorney">Attorney</SelectItem>
+                  <SelectItem value="Candidate">Candidate Attorney</SelectItem>
+                </>
+              )}
+            </SelectContent>
+          </Select>
+          {errors.scale && <p className="text-xs md:text-sm text-red-500">{errors.scale}</p>}
         </div>
         <div className="space-y-2">
-          <Label htmlFor="status">Status</Label>
-          <select
-            id="status"
-            name="status"
-            className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          <Label htmlFor="status" className="text-sm md:text-base">Status</Label>
+          <Select
             value={formData.status}
-            onChange={handleChange}
-            required
+            onValueChange={(value) => handleChange({ target: { name: "status", value } } as any)}
           >
-            <option value="Active">Active</option>
-            <option value="Pending">Pending</option>
-            <option value="Closed">Closed</option>
-          </select>
+            <SelectTrigger className={cn("h-10 md:h-11", errors.status ? "border-red-500" : "")}>
+              <SelectValue placeholder="Select status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Active">Active</SelectItem>
+              <SelectItem value="Pending">Pending</SelectItem>
+              <SelectItem value="Closed">Closed</SelectItem>
+            </SelectContent>
+          </Select>
+          {errors.status && <p className="text-xs md:text-sm text-red-500">{errors.status}</p>}
         </div>
         <div className="space-y-2">
-          <Label htmlFor="fileDate">File Date</Label>
+          <Label htmlFor="fileDate" className="text-sm md:text-base">File Date</Label>
           <Input
             id="fileDate"
             name="fileDate"
@@ -208,12 +215,12 @@ const CaseForm = ({ initialData = {}, onSubmit, onCancel, isSubmitting = false }
             value={formData.fileDate}
             onChange={handleChange}
             required
-            className={errors.fileDate ? "border-red-500" : ""}
+            className={cn("h-10 md:h-11", errors.fileDate ? "border-red-500" : "")}
           />
-          {errors.fileDate && <p className="text-sm text-red-500">{errors.fileDate}</p>}
+          {errors.fileDate && <p className="text-xs md:text-sm text-red-500">{errors.fileDate}</p>}
         </div>
         <div className="space-y-2">
-          <Label htmlFor="clientId">Client</Label>
+          <Label htmlFor="clientId" className="text-sm md:text-base">Client</Label>
           <Select
             value={formData.clientId}
             onValueChange={(value) => {
@@ -232,7 +239,7 @@ const CaseForm = ({ initialData = {}, onSubmit, onCancel, isSubmitting = false }
               }
             }}
           >
-            <SelectTrigger className={errors.clientId ? "border-red-500" : ""}>
+            <SelectTrigger className={cn("h-10 md:h-11", errors.clientId ? "border-red-500" : "")}>
               <SelectValue placeholder="Select a client" />
             </SelectTrigger>
             <SelectContent>
@@ -243,12 +250,12 @@ const CaseForm = ({ initialData = {}, onSubmit, onCancel, isSubmitting = false }
               ))}
             </SelectContent>
           </Select>
-          {errors.clientId && <p className="text-sm text-red-500">{errors.clientId}</p>}
+          {errors.clientId && <p className="text-xs md:text-sm text-red-500">{errors.clientId}</p>}
         </div>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="description">Description</Label>
+        <Label htmlFor="description" className="text-sm md:text-base">Description</Label>
         <textarea
           id="description"
           name="description"
@@ -259,11 +266,21 @@ const CaseForm = ({ initialData = {}, onSubmit, onCancel, isSubmitting = false }
         />
       </div>
 
-      <div className="flex justify-end space-x-2">
-        <Button type="button" variant="outline" onClick={onCancel} disabled={isSubmitting}>
+      <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-2">
+        <Button 
+          type="button" 
+          variant="outline" 
+          onClick={onCancel} 
+          disabled={isSubmitting}
+          className="w-full sm:w-auto"
+        >
           Cancel
         </Button>
-        <Button type="submit" disabled={isSubmitting}>
+        <Button 
+          type="submit" 
+          disabled={isSubmitting}
+          className="w-full sm:w-auto"
+        >
           {isSubmitting ? "Saving..." : "Save Case"}
         </Button>
       </div>

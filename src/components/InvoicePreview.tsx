@@ -255,6 +255,7 @@ const InvoicePreview = ({
         onBack={() => setShowCalculator(false)}
         isEditing={isEditing}
         existingInvoice={{
+          id: invoiceId || '',
           items: editedTariffs.map(item => ({
             description: item.description,
             quantity: item.quantity,
@@ -355,52 +356,52 @@ const InvoicePreview = ({
         className={`p-4 md:p-8 border shadow-sm ${pdfUrl ? 'hidden' : ''}`} 
         id="invoice-preview"
       >
-        <div className="flex flex-col gap-6 md:gap-8 max-w-[800px] mx-auto">
+        <div className="flex flex-col gap-4 md:gap-8 max-w-[800px] mx-auto">
           {/* Header Section */}
-          <div className="flex flex-col md:flex-row justify-between gap-4 md:gap-0 border-b pb-6">
-            <div>
+          <div className="flex flex-col md:flex-row justify-between gap-4 border-b pb-4 md:pb-6">
+            <div className="space-y-2">
               {isEditingMode ? (
                 <div className="space-y-2">
                   <Input
                     value={editedCaseInfo.lawyer.firm}
                     onChange={(e) => handleLawyerInfoChange('firm', e.target.value)}
-                    className="text-xl md:text-2xl font-bold"
+                    className="text-lg md:text-2xl font-bold"
                   />
                   <Textarea
                     value={editedCaseInfo.lawyer.address}
                     onChange={(e) => handleLawyerInfoChange('address', e.target.value)}
-                    className="text-sm md:text-base"
+                    className="text-sm"
                   />
                   <Input
                     value={editedCaseInfo.lawyer.email}
                     onChange={(e) => handleLawyerInfoChange('email', e.target.value)}
-                    className="text-sm md:text-base"
+                    className="text-sm"
                   />
                   <Input
                     value={editedCaseInfo.lawyer.phone}
                     onChange={(e) => handleLawyerInfoChange('phone', e.target.value)}
-                    className="text-sm md:text-base"
+                    className="text-sm"
                   />
                 </div>
               ) : (
                 <>
-                  <h2 className="text-xl md:text-2xl font-bold text-[#1a365d]">{editedCaseInfo.lawyer.firm}</h2>
-                  <p className="text-gray-600 whitespace-pre-line mt-2 text-sm md:text-base">{editedCaseInfo.lawyer.address}</p>
-                  <p className="text-gray-600 mt-1 text-sm md:text-base">{editedCaseInfo.lawyer.email}</p>
-                  <p className="text-gray-600 text-sm md:text-base">{editedCaseInfo.lawyer.phone}</p>
+                  <h2 className="text-lg md:text-2xl font-bold text-[#1a365d]">{editedCaseInfo.lawyer.firm}</h2>
+                  <p className="text-gray-600 whitespace-pre-line text-sm">{editedCaseInfo.lawyer.address}</p>
+                  <p className="text-gray-600 text-sm">{editedCaseInfo.lawyer.email}</p>
+                  <p className="text-gray-600 text-sm">{editedCaseInfo.lawyer.phone}</p>
                 </>
               )}
             </div>
             <div className="text-left md:text-right mt-4 md:mt-0">
-              <h1 className="text-2xl md:text-3xl font-bold text-[#1a365d]">INVOICE</h1>
-              <p className="text-gray-600 mt-2 text-sm md:text-base">Invoice #: {invoiceNumber}</p>
-              <p className="text-gray-600 text-sm md:text-base">Date: {currentDate}</p>
+              <h1 className="text-xl md:text-3xl font-bold text-[#1a365d]">INVOICE</h1>
+              <p className="text-gray-600 text-sm">Invoice #: {invoiceNumber}</p>
+              <p className="text-gray-600 text-sm">Date: {currentDate}</p>
             </div>
           </div>
           
           {/* Client Information Section */}
-          <div className="border-b py-4 md:py-6">
-            <h3 className="font-semibold text-base md:text-lg mb-3 text-[#1a365d]">Bill To:</h3>
+          <div className="border-b py-4">
+            <h3 className="font-semibold text-base mb-2 text-[#1a365d]">Bill To:</h3>
             {isEditingMode ? (
               <div className="space-y-4">
                 <Input
@@ -408,7 +409,7 @@ const InvoicePreview = ({
                   onChange={(e) => handleCaseInfoChange('clientName', e.target.value)}
                   placeholder="Client Name"
                 />
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <Input
                     value={editedCaseInfo.caseNumber}
                     onChange={(e) => handleCaseInfoChange('caseNumber', e.target.value)}
@@ -439,16 +440,16 @@ const InvoicePreview = ({
               </div>
             ) : (
               <>
-                <p className="font-medium text-lg">{editedCaseInfo.clientName}</p>
-                <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <p className="font-medium text-base">{editedCaseInfo.clientName}</p>
+                <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <p className="text-gray-600 text-sm md:text-base">Case Number: {editedCaseInfo.caseNumber}</p>
-                    <p className="text-gray-600 text-sm md:text-base">Case Title: {editedCaseInfo.caseTitle}</p>
+                    <p className="text-gray-600 text-sm">Case Number: {editedCaseInfo.caseNumber}</p>
+                    <p className="text-gray-600 text-sm">Case Title: {editedCaseInfo.caseTitle}</p>
                   </div>
                   <div>
-                    <p className="text-gray-600 text-sm md:text-base">Court: {editedCaseInfo.court === "magistrate" ? "Magistrate Court" : "High Court"}</p>
-                    <p className="text-gray-600 text-sm md:text-base">Scale: {editedCaseInfo.scale}</p>
-                    <p className="text-gray-600 text-sm md:text-base">File Pages: {editedCaseInfo.filePages}</p>
+                    <p className="text-gray-600 text-sm">Court: {editedCaseInfo.court === "magistrate" ? "Magistrate Court" : "High Court"}</p>
+                    <p className="text-gray-600 text-sm">Scale: {editedCaseInfo.scale}</p>
+                    <p className="text-gray-600 text-sm">File Pages: {editedCaseInfo.filePages}</p>
                   </div>
                 </div>
               </>
@@ -456,78 +457,81 @@ const InvoicePreview = ({
           </div>
           
           {/* Items Table Section */}
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[500px]">
-              <thead>
-                <tr className="border-b text-left bg-gray-50">
-                  <th className="py-3 px-4 text-xs md:text-sm font-semibold text-[#1a365d]">Item</th>
-                  <th className="py-3 px-4 text-xs md:text-sm font-semibold text-[#1a365d]">Description</th>
-                  <th className="py-3 px-4 text-xs md:text-sm font-semibold text-[#1a365d]">Unit</th>
-                  <th className="py-3 px-4 text-right text-xs md:text-sm font-semibold text-[#1a365d]">Rate (R)</th>
-                  <th className="py-3 px-4 text-right text-xs md:text-sm font-semibold text-[#1a365d]">Qty</th>
-                  <th className="py-3 px-4 text-right text-xs md:text-sm font-semibold text-[#1a365d]">Amount (R)</th>
-                  {isEditingMode && (
-                    <th className="py-3 px-4 text-right text-xs md:text-sm font-semibold text-[#1a365d]">Actions</th>
-                  )}
-                </tr>
-              </thead>
-              <tbody className="divide-y">
-                {editedTariffs.map((item, index) => (
-                  <tr key={index} className="hover:bg-gray-50">
-                    <td className="py-3 px-4 text-xs md:text-sm">{index + 1}</td>
-                    <td className="py-3 px-4 text-xs md:text-sm">
-                      {isEditingMode ? (
-                        <Input
-                          value={item.description}
-                          onChange={(e) => handleTariffChange(index, 'description', e.target.value)}
-                          placeholder="Item description"
-                        />
-                      ) : (
-                        item.description
-                      )}
-                    </td>
-                    <td className="py-3 px-4 text-xs md:text-sm">{item.unit}</td>
-                    <td className="py-3 px-4 text-right text-xs md:text-sm">
-                      {isEditingMode ? (
-                        <Input
-                          type="number"
-                          value={item.rate}
-                          onChange={(e) => handleTariffChange(index, 'rate', parseFloat(e.target.value))}
-                          className="w-20 text-right"
-                        />
-                      ) : (
-                        item.rate.toFixed(2)
-                      )}
-                    </td>
-                    <td className="py-3 px-4 text-right text-xs md:text-sm">
-                      {isEditingMode ? (
-                        <Input
-                          type="number"
-                          value={item.quantity}
-                          onChange={(e) => handleTariffChange(index, 'quantity', parseInt(e.target.value))}
-                          className="w-20 text-right"
-                        />
-                      ) : (
-                        item.quantity
-                      )}
-                    </td>
-                    <td className="py-3 px-4 text-right text-xs md:text-sm">{item.totalAmount.toFixed(2)}</td>
+          <div className="overflow-x-auto -mx-4 md:mx-0">
+            <div className="min-w-[600px] px-4 md:px-0">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b text-left bg-gray-50">
+                    <th className="py-2 px-2 md:px-4 text-xs font-semibold text-[#1a365d]">Item</th>
+                    <th className="py-2 px-2 md:px-4 text-xs font-semibold text-[#1a365d] hidden sm:table-cell">Description</th>
+                    <th className="py-2 px-2 md:px-4 text-xs font-semibold text-[#1a365d] hidden md:table-cell">Unit</th>
+                    <th className="py-2 px-2 md:px-4 text-right text-xs font-semibold text-[#1a365d]">Rate (R)</th>
+                    <th className="py-2 px-2 md:px-4 text-right text-xs font-semibold text-[#1a365d]">Qty</th>
+                    <th className="py-2 px-2 md:px-4 text-right text-xs font-semibold text-[#1a365d]">Amount (R)</th>
                     {isEditingMode && (
-                      <td className="py-3 px-4 text-right">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleRemoveTariff(index)}
-                          className="text-red-500 hover:text-red-700"
-                        >
-                          <X className="h-4 w-4" />
-                        </Button>
-                      </td>
+                      <th className="py-2 px-2 md:px-4 text-right text-xs font-semibold text-[#1a365d]">Actions</th>
                     )}
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {editedTariffs.map((item, index) => (
+                    <tr key={index} className="hover:bg-gray-50">
+                      <td className="py-2 px-2 md:px-4 text-xs">
+                        {isEditingMode ? (
+                          <Input
+                            value={item.description}
+                            onChange={(e) => handleTariffChange(index, 'description', e.target.value)}
+                            placeholder="Item description"
+                            className="text-xs"
+                          />
+                        ) : (
+                          item.description
+                        )}
+                      </td>
+                      <td className="py-2 px-2 md:px-4 text-xs hidden sm:table-cell">{item.unit}</td>
+                      <td className="py-2 px-2 md:px-4 text-xs hidden md:table-cell">{item.unit}</td>
+                      <td className="py-2 px-2 md:px-4 text-right text-xs">
+                        {isEditingMode ? (
+                          <Input
+                            type="number"
+                            value={item.rate}
+                            onChange={(e) => handleTariffChange(index, 'rate', parseFloat(e.target.value))}
+                            className="w-16 text-right text-xs"
+                          />
+                        ) : (
+                          item.rate.toFixed(2)
+                        )}
+                      </td>
+                      <td className="py-2 px-2 md:px-4 text-right text-xs">
+                        {isEditingMode ? (
+                          <Input
+                            type="number"
+                            value={item.quantity}
+                            onChange={(e) => handleTariffChange(index, 'quantity', parseInt(e.target.value))}
+                            className="w-16 text-right text-xs"
+                          />
+                        ) : (
+                          item.quantity
+                        )}
+                      </td>
+                      <td className="py-2 px-2 md:px-4 text-right text-xs">{item.totalAmount.toFixed(2)}</td>
+                      {isEditingMode && (
+                        <td className="py-2 px-2 md:px-4 text-right">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleRemoveTariff(index)}
+                            className="text-red-500 hover:text-red-700 h-6 w-6 p-0"
+                          >
+                            <X className="h-3 w-3" />
+                          </Button>
+                        </td>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
             
             {isEditingMode && (
               <div className="mt-4">
@@ -543,17 +547,17 @@ const InvoicePreview = ({
             )}
             
             {/* Totals Section */}
-            <div className="mt-6 flex justify-end">
+            <div className="mt-4 flex justify-end">
               <div className="w-full md:w-1/2 lg:w-1/3">
-                <div className="flex justify-between py-2">
-                  <span className="font-medium text-sm md:text-base">Subtotal:</span>
-                  <span className="text-sm md:text-base">R {editedTotalAmount.toFixed(2)}</span>
+                <div className="flex justify-between py-1">
+                  <span className="font-medium text-sm">Subtotal:</span>
+                  <span className="text-sm">R {editedTotalAmount.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between py-2">
-                  <span className="font-medium text-sm md:text-base">VAT (15%):</span>
-                  <span className="text-sm md:text-base">R {(editedTotalAmount * 0.15).toFixed(2)}</span>
+                <div className="flex justify-between py-1">
+                  <span className="font-medium text-sm">VAT (15%):</span>
+                  <span className="text-sm">R {(editedTotalAmount * 0.15).toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between border-t border-b py-3 font-bold text-lg">
+                <div className="flex justify-between border-t border-b py-2 font-bold text-base">
                   <span>Total:</span>
                   <span>R {(editedTotalAmount * 1.15).toFixed(2)}</span>
                 </div>
@@ -562,27 +566,27 @@ const InvoicePreview = ({
           </div>
           
           {/* Payment Details Section */}
-          <div className="mt-6 md:mt-8 border-t pt-6">
-            <h4 className="font-semibold mb-3 text-base md:text-lg text-[#1a365d]">Payment Details:</h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="mt-4 border-t pt-4">
+            <h4 className="font-semibold mb-2 text-base text-[#1a365d]">Payment Details:</h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <p className="text-gray-600 text-sm md:text-base">Bank: [Bank Name]</p>
-                <p className="text-gray-600 text-sm md:text-base">Account Number: [Account Number]</p>
-                <p className="text-gray-600 text-sm md:text-base">Reference: {invoiceNumber}</p>
+                <p className="text-gray-600 text-sm">Bank: [Bank Name]</p>
+                <p className="text-gray-600 text-sm">Account Number: [Account Number]</p>
+                <p className="text-gray-600 text-sm">Reference: {invoiceNumber}</p>
               </div>
               <div>
-                <p className="text-gray-600 text-sm md:text-base">Due Date: {format(new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), "dd MMMM yyyy")}</p>
-                <p className="text-gray-600 text-sm md:text-base">Payment Terms: 30 days</p>
+                <p className="text-gray-600 text-sm">Due Date: {format(new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), "dd MMMM yyyy")}</p>
+                <p className="text-gray-600 text-sm">Payment Terms: 30 days</p>
               </div>
             </div>
           </div>
           
           {/* Footer Section */}
-          <div className="mt-8 pt-6 border-t">
+          <div className="mt-4 pt-4 border-t">
             <div className="text-center space-y-2">
               <p className="text-gray-600 text-sm">Thank you for your business</p>
               <p className="text-gray-500 text-xs">This invoice was generated based on published Government Gazette tariffs effective 12 April 2024</p>
-              <p className="text-gray-400 text-xs mt-4">For any queries, please contact {editedCaseInfo.lawyer.email}</p>
+              <p className="text-gray-400 text-xs mt-2">For any queries, please contact {editedCaseInfo.lawyer.email}</p>
             </div>
           </div>
         </div>

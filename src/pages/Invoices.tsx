@@ -217,15 +217,15 @@ const Invoices = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Invoices</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight">Invoices</h1>
+          <p className="text-sm text-muted-foreground">
             Manage and track all your invoices
           </p>
         </div>
-        <div className="flex gap-4">
-          <Button onClick={handleGenerateNew}>
+        <div className="flex gap-2 sm:gap-4">
+          <Button onClick={handleGenerateNew} className="w-full sm:w-auto">
             <Plus className="mr-2 h-4 w-4" /> Bill A Case
           </Button>
         </div>
@@ -239,7 +239,7 @@ const Invoices = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col md:flex-row gap-4 mb-6">
+          <div className="flex flex-col sm:flex-row gap-4 mb-6">
             <div className="relative flex-1">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
@@ -250,7 +250,7 @@ const Invoices = () => {
               />
             </div>
             <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-full md:w-[180px]">
+              <SelectTrigger className="w-full sm:w-[180px]">
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
               <SelectContent>
@@ -262,86 +262,90 @@ const Invoices = () => {
             </Select>
           </div>
 
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Invoice #</TableHead>
-                <TableHead>Client</TableHead>
-                <TableHead>Case</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead className="text-right">Amount</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredInvoices.map((invoice) => (
-                <TableRow key={invoice.id}>
-                  <TableCell className="font-medium">
-                    {invoice.invoice_number}
-                  </TableCell>
-                  <TableCell>
-                    <Button
-                      variant="link"
-                      className="p-0 h-auto font-normal"
-                      onClick={() => handleClientClick(invoice.cases.clients.id)}
-                    >
-                      {invoice.cases.clients.name}
-                    </Button>
-                  </TableCell>
-                  <TableCell>
-                    <Button
-                      variant="link"
-                      className="p-0 h-auto font-normal"
-                      onClick={() => handleCaseClick(invoice.case_id)}
-                    >
-                      {invoice.cases.title}
-                    </Button>
-                  </TableCell>
-                  <TableCell>{format(new Date(invoice.date), "dd MMM yyyy")}</TableCell>
-                  <TableCell className="text-right">
-                    R {invoice.amount.toFixed(2)}
-                  </TableCell>
-                  <TableCell>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(invoice.status)}`}>
-                      {invoice.status}
-                    </span>
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex justify-end gap-2">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handlePreviewInvoice(invoice)}
-                      >
-                        <Eye className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleDeleteInvoice(invoice)}
-                      >
-                        <Trash2 className="h-4 w-4 text-destructive" />
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-              {filteredInvoices.length === 0 && (
-                <TableRow>
-                  <TableCell colSpan={7} className="text-center py-8">
-                    No invoices found
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
+          <div className="overflow-x-auto -mx-4 sm:mx-0">
+            <div className="min-w-[800px] px-4 sm:px-0">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[100px]">Invoice #</TableHead>
+                    <TableHead>Client</TableHead>
+                    <TableHead>Case</TableHead>
+                    <TableHead>Date</TableHead>
+                    <TableHead className="text-right">Amount</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredInvoices.map((invoice) => (
+                    <TableRow key={invoice.id}>
+                      <TableCell className="font-medium">
+                        {invoice.invoice_number}
+                      </TableCell>
+                      <TableCell>
+                        <Button
+                          variant="link"
+                          className="p-0 h-auto font-normal"
+                          onClick={() => handleClientClick(invoice.cases.clients.id)}
+                        >
+                          {invoice.cases.clients.name}
+                        </Button>
+                      </TableCell>
+                      <TableCell>
+                        <Button
+                          variant="link"
+                          className="p-0 h-auto font-normal"
+                          onClick={() => handleCaseClick(invoice.case_id)}
+                        >
+                          {invoice.cases.title}
+                        </Button>
+                      </TableCell>
+                      <TableCell>{format(new Date(invoice.date), "dd MMM yyyy")}</TableCell>
+                      <TableCell className="text-right">
+                        R {invoice.amount.toFixed(2)}
+                      </TableCell>
+                      <TableCell>
+                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(invoice.status)}`}>
+                          {invoice.status}
+                        </span>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex justify-end gap-2">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handlePreviewInvoice(invoice)}
+                          >
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleDeleteInvoice(invoice)}
+                          >
+                            <Trash2 className="h-4 w-4 text-destructive" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                  {filteredInvoices.length === 0 && (
+                    <TableRow>
+                      <TableCell colSpan={7} className="text-center py-8">
+                        No invoices found
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </div>
+          </div>
         </CardContent>
       </Card>
 
       {/* Invoice Preview Dialog */}
       <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
-        <DialogContent className="max-w-4xl">
+        <DialogContent className="max-w-4xl w-[95vw] sm:w-[90vw] md:w-[80vw] lg:w-[70vw]">
           <DialogHeader>
             <DialogTitle>Invoice Preview</DialogTitle>
             <DialogDescription>
@@ -350,7 +354,7 @@ const Invoices = () => {
           </DialogHeader>
           {selectedInvoice && (
             <div className="space-y-6">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <h3 className="font-semibold mb-2">Client Information</h3>
                   <p className="text-sm text-muted-foreground">
@@ -370,80 +374,59 @@ const Invoices = () => {
                 </div>
               </div>
 
-              <div className="border rounded-lg">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b bg-muted/50">
-                      <th className="p-2 text-left text-sm font-medium">Description</th>
-                      <th className="p-2 text-right text-sm font-medium">Quantity</th>
-                      <th className="p-2 text-right text-sm font-medium">Unit Price</th>
-                      <th className="p-2 text-right text-sm font-medium">Total</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {selectedInvoice.invoice_items.map((item, index) => (
-                      <tr key={index} className="border-b">
-                        <td className="p-2 text-sm">{item.description}</td>
-                        <td className="p-2 text-sm text-right">{item.quantity}</td>
-                        <td className="p-2 text-sm text-right">R {item.unit_price.toFixed(2)}</td>
-                        <td className="p-2 text-sm text-right">R {item.total.toFixed(2)}</td>
+              <div className="overflow-x-auto -mx-4 sm:mx-0">
+                <div className="min-w-[600px] px-4 sm:px-0">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b bg-muted/50">
+                        <th className="p-2 text-left text-sm font-medium">Description</th>
+                        <th className="p-2 text-right text-sm font-medium">Quantity</th>
+                        <th className="p-2 text-right text-sm font-medium">Unit Price</th>
+                        <th className="p-2 text-right text-sm font-medium">Total</th>
                       </tr>
-                    ))}
-                  </tbody>
-                  <tfoot>
-                    <tr className="border-t">
-                      <td colSpan={3} className="p-2 text-right font-medium">Subtotal:</td>
-                      <td className="p-2 text-right">R {(selectedInvoice.amount / 1.15).toFixed(2)}</td>
-                    </tr>
-                    <tr>
-                      <td colSpan={3} className="p-2 text-right font-medium">VAT (15%):</td>
-                      <td className="p-2 text-right">R {(selectedInvoice.amount * 0.15 / 1.15).toFixed(2)}</td>
-                    </tr>
-                    <tr className="border-t font-bold">
-                      <td colSpan={3} className="p-2 text-right">Total:</td>
-                      <td className="p-2 text-right">R {selectedInvoice.amount.toFixed(2)}</td>
-                    </tr>
-                  </tfoot>
-                </table>
-              </div>
-
-              <div className="flex justify-end gap-4">
-                <Button
-                  variant="outline"
-                  onClick={() => setIsPreviewOpen(false)}
-                >
-                  Close
-                </Button>
-                <Button
-                  onClick={() => {
-                    setIsPreviewOpen(false);
-                    navigate(`/invoice-generator`, { 
-                      state: { 
-                        caseId: selectedInvoice.case_id,
-                        invoiceId: selectedInvoice.id,
-                        isEditing: true 
-                      } 
-                    });
-                  }}
-                >
-                  Edit Invoice
-                </Button>
+                    </thead>
+                    <tbody>
+                      {selectedInvoice.invoice_items.map((item, index) => (
+                        <tr key={index} className="border-b">
+                          <td className="p-2 text-sm">{item.description}</td>
+                          <td className="p-2 text-sm text-right">{item.quantity}</td>
+                          <td className="p-2 text-sm text-right">R {item.unit_price.toFixed(2)}</td>
+                          <td className="p-2 text-sm text-right">R {item.total.toFixed(2)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                    <tfoot>
+                      <tr className="border-t">
+                        <td colSpan={3} className="p-2 text-right font-medium">Subtotal:</td>
+                        <td className="p-2 text-right">R {(selectedInvoice.amount / 1.15).toFixed(2)}</td>
+                      </tr>
+                      <tr>
+                        <td colSpan={3} className="p-2 text-right font-medium">VAT (15%):</td>
+                        <td className="p-2 text-right">R {(selectedInvoice.amount * 0.15 / 1.15).toFixed(2)}</td>
+                      </tr>
+                      <tr className="border-t font-bold">
+                        <td colSpan={3} className="p-2 text-right">Total:</td>
+                        <td className="p-2 text-right">R {selectedInvoice.amount.toFixed(2)}</td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
               </div>
             </div>
           )}
         </DialogContent>
       </Dialog>
 
-      {/* Delete Confirmation Dialog */}
+      {/* Delete Dialog */}
       <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Delete Invoice</DialogTitle>
             <DialogDescription>
               Are you sure you want to delete invoice #{selectedInvoice?.invoice_number}? This action cannot be undone.
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter>
+          <DialogFooter className="flex-col sm:flex-row gap-2">
             <Button
               variant="outline"
               onClick={() => {
@@ -451,6 +434,7 @@ const Invoices = () => {
                 setSelectedInvoice(null);
               }}
               disabled={isDeleting}
+              className="w-full sm:w-auto"
             >
               Cancel
             </Button>
@@ -458,6 +442,7 @@ const Invoices = () => {
               variant="destructive"
               onClick={confirmDelete}
               disabled={isDeleting}
+              className="w-full sm:w-auto"
             >
               {isDeleting ? (
                 <>

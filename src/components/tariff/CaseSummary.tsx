@@ -7,7 +7,7 @@ interface CaseSummaryProps {
     caseNumber: string;
     caseTitle: string;
     filePages: number;
-    courtType: string;
+    court: string;
     scale: string;
   };
 }
@@ -26,7 +26,7 @@ const CaseSummary = ({ caseInfo }: CaseSummaryProps) => {
             <p><span className="font-medium text-muted-foreground">Case Title:</span> {caseInfo.caseTitle}</p>
           </div>
           <div className="space-y-2">
-            <p><span className="font-medium text-muted-foreground">Court Type:</span> {caseInfo.courtType === "magistrate" ? "Magistrate Court" : "High Court"}</p>
+            <p><span className="font-medium text-muted-foreground">Court Type:</span> {caseInfo.court.toLowerCase() === "magistrate" ? "Magistrate Court" : "High Court"}</p>
             <p><span className="font-medium text-muted-foreground">Scale/Column:</span> {caseInfo.scale}</p>
             <p><span className="font-medium text-muted-foreground">File Pages:</span> {caseInfo.filePages}</p>
           </div>

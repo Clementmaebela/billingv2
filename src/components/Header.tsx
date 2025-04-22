@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -9,12 +8,13 @@ import {
   DropdownMenuSeparator, 
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
-import { UserCircle } from "lucide-react";
+import { UserCircle, Bell, LogOut } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
 import { useIsMobile } from "@/hooks/use-mobile";
 import NotificationBell from "./NotificationBell";
+import { supabase } from "@/integrations/supabase/client";
 
 const Header = () => {
   const { user } = useAuth();
@@ -71,7 +71,7 @@ const Header = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
                 <div className="flex items-center justify-start gap-2 p-2">
-                  <Avatar className="h-8 w-8">
+                  <Avatar className="h-10 w-10">
                     <AvatarImage 
                       src={user.user_metadata?.avatar_url} 
                       alt={user.user_metadata?.full_name || user.email} 
@@ -79,18 +79,35 @@ const Header = () => {
                     <AvatarFallback className="bg-[#1a365d] text-white">{initials}</AvatarFallback>
                   </Avatar>
                   <div className="flex flex-col space-y-0.5">
-                    <p className="text-sm font-medium">{user.user_metadata?.full_name || user.email}</p>
+                    <p className="text-sm font-medium leading-none">{user.user_metadata?.full_name || user.email}</p>
                     {user.user_metadata?.full_name && (
                       <p className="text-xs text-muted-foreground truncate max-w-[180px]">{user.email}</p>
+                    )}
+                    {user.user_metadata?.firm && (
+                      <p className="text-xs text-muted-foreground truncate max-w-[180px]">{user.user_metadata.firm}</p>
                     )}
                   </div>
                 </div>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link to="/profile" className="flex items-center cursor-pointer">
+                <DropdownMenuItem asChild className="cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800">
+                  <Link to="/profile" className="flex items-center">
                     <UserCircle className="w-4 h-4 mr-2" />
-                    <span>Profile</span>
+                    <span>Profile Settings</span>
                   </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild className="cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800">
+                  <Link to="/notifications" className="flex items-center">
+                    <Bell className="w-4 h-4 mr-2" />
+                    <span>Notifications</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem 
+                  onClick={() => supabase.auth.signOut()} 
+                  className="cursor-pointer text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  <span>Sign out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

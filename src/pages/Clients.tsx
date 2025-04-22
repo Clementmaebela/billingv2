@@ -98,15 +98,15 @@ const Clients = () => {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-4 md:space-y-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Clients</h1>
-          <p className="text-muted-foreground">Manage your client list and their information</p>
+          <h1 className="text-xl md:text-2xl lg:text-3xl font-bold tracking-tight">Clients</h1>
+          <p className="text-sm md:text-base text-muted-foreground">Manage your client list and their information</p>
         </div>
         <Button 
           onClick={() => setShowAddForm(true)}
-          className="bg-primary hover:bg-primary/90"
+          className="w-full sm:w-auto bg-primary hover:bg-primary/90"
         >
           <Plus className="mr-2 h-4 w-4" />
           Add Client
@@ -129,63 +129,67 @@ const Clients = () => {
         </Card>
       )}
 
-      <div className="flex items-center space-x-2">
-        <div className="relative flex-1">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500 dark:text-slate-400" />
-          <Input
-            placeholder="Search clients by name or email..."
-            className="pl-8 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
+      <div className="relative">
+        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500 dark:text-slate-400" />
+        <Input
+          placeholder="Search clients by name or email..."
+          className="pl-8 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
       </div>
 
       <Card className="border-0 shadow-sm">
         <CardContent className="p-0">
-          <Table>
-            <TableHeader>
-              <TableRow className="bg-slate-50 dark:bg-slate-800">
-                <TableHead className="font-semibold text-slate-700 dark:text-slate-300">Name</TableHead>
-                <TableHead className="font-semibold text-slate-700 dark:text-slate-300">Email</TableHead>
-                <TableHead className="font-semibold text-slate-700 dark:text-slate-300">Phone</TableHead>
-                <TableHead className="font-semibold text-slate-700 dark:text-slate-300">Address</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredClients.length > 0 ? (
-                filteredClients.map((client) => (
-                  <TableRow 
-                    key={client.id} 
-                    className="cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-                  >
-                    <TableCell className="font-medium">
-                      <Link 
-                        to={`/clients/${client.id}`} 
-                        className="text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100"
-                      >
-                        {client.name}
-                      </Link>
-                    </TableCell>
-                    <TableCell className="text-slate-600 dark:text-slate-400">{client.email}</TableCell>
-                    <TableCell className="text-slate-600 dark:text-slate-400">{client.phone}</TableCell>
-                    <TableCell className="max-w-xs truncate text-slate-600 dark:text-slate-400">
-                      {client.address}
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-slate-50 dark:bg-slate-800">
+                  <TableHead className="text-xs md:text-sm font-semibold text-slate-700 dark:text-slate-300">Name</TableHead>
+                  <TableHead className="text-xs md:text-sm font-semibold text-slate-700 dark:text-slate-300 hidden sm:table-cell">Email</TableHead>
+                  <TableHead className="text-xs md:text-sm font-semibold text-slate-700 dark:text-slate-300 hidden md:table-cell">Phone</TableHead>
+                  <TableHead className="text-xs md:text-sm font-semibold text-slate-700 dark:text-slate-300 hidden lg:table-cell">Address</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredClients.length > 0 ? (
+                  filteredClients.map((client) => (
+                    <TableRow 
+                      key={client.id} 
+                      className="cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                    >
+                      <TableCell className="text-xs md:text-sm font-medium">
+                        <Link 
+                          to={`/clients/${client.id}`} 
+                          className="text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100"
+                        >
+                          {client.name}
+                        </Link>
+                      </TableCell>
+                      <TableCell className="text-xs md:text-sm text-slate-600 dark:text-slate-400 hidden sm:table-cell">
+                        {client.email}
+                      </TableCell>
+                      <TableCell className="text-xs md:text-sm text-slate-600 dark:text-slate-400 hidden md:table-cell">
+                        {client.phone}
+                      </TableCell>
+                      <TableCell className="text-xs md:text-sm max-w-[200px] truncate text-slate-600 dark:text-slate-400 hidden lg:table-cell">
+                        {client.address}
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell 
+                      colSpan={4} 
+                      className="text-center py-8 text-slate-500 dark:text-slate-400"
+                    >
+                      No clients found. Add a new client to get started.
                     </TableCell>
                   </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell 
-                    colSpan={4} 
-                    className="text-center py-8 text-slate-500 dark:text-slate-400"
-                  >
-                    No clients found. Add a new client to get started.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
+                )}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
       </Card>
     </div>

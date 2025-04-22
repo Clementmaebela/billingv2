@@ -91,25 +91,26 @@ const Layout = () => {
       <button
         onClick={toggleSidebar}
         className={cn(
-          "fixed left-4 top-4 z-50 rounded-md p-2 text-slate-300 hover:bg-slate-800 lg:hidden",
-          sidebarOpen ? "hidden" : "block"
+          "fixed left-4 top-4 z-50 rounded-md p-2 text-slate-300 hover:bg-slate-800 lg:hidden transition-opacity duration-200",
+          sidebarOpen ? "opacity-0 pointer-events-none" : "opacity-100"
         )}
       >
         <Menu className="h-6 w-6" />
       </button>
 
       {/* Mobile overlay */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
+      <div
+        className={cn(
+          "fixed inset-0 bg-black/50 z-40 lg:hidden transition-opacity duration-200",
+          sidebarOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        )}
+        onClick={() => setSidebarOpen(false)}
+      />
 
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 w-64 transform transition-transform duration-200 ease-in-out lg:relative lg:translate-x-0",
+          "fixed inset-y-0 left-0 z-50 w-64 transform transition-all duration-300 ease-in-out lg:relative lg:translate-x-0",
           sidebarOpen ? "translate-x-0" : "-translate-x-full",
           "border-r bg-slate-900 dark:bg-slate-950 border-slate-800 dark:border-slate-800"
         )}
@@ -118,7 +119,7 @@ const Layout = () => {
           <h2 className="text-xl font-bold text-slate-50">Legal Billing</h2>
           <button
             onClick={toggleSidebar}
-            className="rounded-md p-1 text-slate-300 hover:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-800 lg:hidden"
+            className="rounded-md p-1 text-slate-300 hover:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-800 lg:hidden transition-colors duration-200"
           >
             <X className="h-6 w-6" />
           </button>
@@ -155,39 +156,39 @@ const Layout = () => {
           <div className="mt-auto border-t border-slate-800 dark:border-blue-900">
             <div className="p-4">
               <div className="flex items-center justify-between">
-            <Link 
-              to="/profile" 
+                <Link 
+                  to="/profile" 
                   className="flex items-center space-x-3 flex-1 hover:bg-slate-800 dark:hover:bg-blue-900 rounded-md p-2 transition-colors"
-            >
+                >
                   <Avatar className="h-10 w-10">
-                <AvatarImage 
-                  src={user.user_metadata?.avatar_url} 
-                  alt={user.user_metadata?.full_name || user.email} 
-                />
+                    <AvatarImage 
+                      src={user.user_metadata?.avatar_url} 
+                      alt={user.user_metadata?.full_name || user.email} 
+                    />
                     <AvatarFallback className="bg-slate-800 dark:bg-blue-900 text-slate-50 dark:text-blue-200">
                       {user.user_metadata?.full_name?.charAt(0) || user.email?.charAt(0) || "U"}
                     </AvatarFallback>
-              </Avatar>
-              <div className="flex-1 min-w-0">
+                  </Avatar>
+                  <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-slate-50 truncate">
-                  {user.user_metadata?.full_name || user.email}
-                </p>
-                {user.user_metadata?.full_name && (
+                      {user.user_metadata?.full_name || user.email}
+                    </p>
+                    {user.user_metadata?.full_name && (
                       <p className="text-xs text-slate-300 truncate">
                         {user.email}
                       </p>
-                )}
-              </div>
+                    )}
+                  </div>
                 </Link>
-              <Button 
-                variant="ghost" 
-                size="icon" 
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
                   onClick={handleLogout}
                   className="text-slate-300 hover:text-slate-50 hover:bg-slate-800 dark:text-blue-300 dark:hover:text-blue-50 dark:hover:bg-blue-900"
                   title="Sign out"
-              >
-                <LogOut className="h-5 w-5" />
-              </Button>
+                >
+                  <LogOut className="h-5 w-5" />
+                </Button>
               </div>
             </div>
           </div>
